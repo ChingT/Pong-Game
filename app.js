@@ -23,6 +23,8 @@ let ballX = InitBallX;
 let ballY = InitBallY;
 let vilocityBallX = 1;
 let vilocityBallY = 1;
+const isOutOfWidth = (x) => x < RADIUS || x >= CANVAS_WIDTH - RADIUS;
+const isOutOfHeight = (y) => y < RADIUS || y >= CANVAS_HEIGHT - RADIUS;
 
 // Render functions
 const renderBackground = () => {
@@ -50,6 +52,12 @@ const render = () => {
 
 // Controller functions
 const controlBall = () => {
+  if (isOutOfWidth(ballX)) {
+    vilocityBallX = -vilocityBallX;
+  }
+  if (isOutOfHeight(ballY)) {
+    vilocityBallY = -vilocityBallY;
+  }
   ballX += vilocityBallX;
   ballY += vilocityBallY;
 };
