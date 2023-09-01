@@ -37,16 +37,28 @@ class Paddle {
 const paddle = new Paddle();
 
 // Ball
-const BALL_COLOR = "red";
-const RADIUS = 5;
-const InitBallX = CANVAS_WIDTH / 2;
-const InitBallY = CANVAS_HEIGHT / 2;
-let ballX = InitBallX;
-let ballY = InitBallY;
-let velocityBallX = 1;
-let velocityBallY = 1;
-const ballOutOfWallH = (x) => x < RADIUS || x >= CANVAS_WIDTH - RADIUS;
-const ballOutOfWallV = (y) => y < RADIUS || y >= CANVAS_HEIGHT - RADIUS;
+class Ball {
+  constructor() {
+    this.color = "red";
+    this.radius = 5;
+    this.initX = CANVAS_WIDTH / 2;
+    this.initY = CANVAS_HEIGHT / 2;
+    this.x = this.initX;
+    this.y = this.initY;
+    this.directionX = 1;
+    this.directionY = 1;
+    this.baseVelocity = 5;
+  }
+
+  outOfHorizontalWall(x) {
+    return x < this.radius || x > CANVAS_WIDTH - this.radius;
+  }
+  outOfVerticalWall(y) {
+    return y < this.radius || y > CANVAS_HEIGHT - this.radius;
+  }
+}
+
+const ball = new Ball();
 
 // EventListener
 document.addEventListener("keydown", (event) => {
@@ -77,8 +89,8 @@ const renderBackground = () => {
 };
 const renderBall = (x, y) => {
   ctx.beginPath();
-  ctx.arc(x, y, RADIUS, 0, 2 * Math.PI);
-  ctx.fillStyle = BALL_COLOR;
+  ctx.arc(x, y, ball.radius, 0, 2 * Math.PI);
+  ctx.fillStyle = ball.color;
   ctx.fill();
 };
 const renderPaddle = (x, y) => {
@@ -89,21 +101,21 @@ const renderPaddle = (x, y) => {
 const render = () => {
   renderBackground();
   renderPaddle(paddle.x, paddle.y);
-  renderBall(ballX, ballY);
+  renderBall(ball.x, ball.y);
 
   printDebugInfo();
 };
 
 // Controller functions
 const controlBall = () => {
-  if (ballOutOfWallH(ballX)) {
-    velocityBallX = -velocityBallX;
+  if (ball.outOfHorizontalWall(ball.x)) {
+    ball.directionX = -ball.directionX;
   }
-  if (ballOutOfWallV(ballY)) {
-    velocityBallY = -velocityBallY;
+  if (ball.outOfVerticalWall(ball.y)) {
+    ball.directionY = -ball.directionY;
   }
-  ballX += velocityBallX;
-  ballY += velocityBallY;
+  ball.x += ball.directionX * ball.baseVelocity;
+  ball.y += ball.directionY * ball.baseVelocity;
 };
 
 const controlPaddle = () => {
@@ -119,7 +131,7 @@ const controlPaddle = () => {
 // Debug
 const printDebugInfo = () => {
   debug_info.innerHTML = `
-  <p>Ball (${ballX}, ${ballY})<\p>
+  <p>Ball (${ball.x}, ${ball.y})<\p>
   <p>Paddle (${paddle.x}, ${paddle.y})<\p>
   `;
 
