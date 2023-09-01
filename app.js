@@ -1,6 +1,7 @@
 // Canvas
 const canvas = document.querySelector("canvas");
-const ball_postion = document.querySelector("#debug_info");
+const postions = document.querySelector("#debug_info");
+const outOfWall = document.querySelector("#debug_info2");
 const ctx = canvas.getContext("2d");
 const CANVAS_WIDTH = canvas.width;
 const CANVAS_HEIGHT = canvas.height;
@@ -90,7 +91,7 @@ const render = () => {
   renderPaddle(paddle.x, paddle.y);
   renderBall(ballX, ballY);
 
-  printPostions();
+  printDebugInfo();
 };
 
 // Controller functions
@@ -116,11 +117,19 @@ const controlPaddle = () => {
 };
 
 // Debug
-const printPostions = () => {
+const printDebugInfo = () => {
   debug_info.innerHTML = `
   <p>Ball (${ballX}, ${ballY})<\p>
-  <p>Paddle (${paddleX}, ${paddleY})<\p>
+  <p>Paddle (${paddle.x}, ${paddle.y})<\p>
   `;
+
+  if (paddle.y < paddle.yUpperLimit) {
+    outOfWall.innerHTML = `Paddle is out of upper wall!`;
+  } else if (paddle.y > paddle.yLowerLimit) {
+    outOfWall.innerHTML = `Paddle is out of lower wall!`;
+  } else {
+    outOfWall.innerHTML = "";
+  }
 };
 
 //  Call the functions
@@ -131,4 +140,4 @@ const myInterval = setInterval(() => {
     controlBall();
     controlPaddle();
   }
-}, 1);
+}, 20);
