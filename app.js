@@ -11,8 +11,10 @@ const PaddleWidth = 20;
 const PaddleHeight = 80;
 const InitPaddleX = 10;
 const InitPaddleY = 20;
+const vilocityPaddleBase = 1;
 let paddleX = InitPaddleX;
 let paddleY = InitPaddleY;
+let vilocityPaddleY = 0;
 
 // Ball
 const BALL_COLOR = "red";
@@ -25,6 +27,22 @@ let vilocityBallX = 1;
 let vilocityBallY = 1;
 const isOutOfWidth = (x) => x < RADIUS || x >= CANVAS_WIDTH - RADIUS;
 const isOutOfHeight = (y) => y < RADIUS || y >= CANVAS_HEIGHT - RADIUS;
+
+// EventListener
+document.addEventListener("keydown", (event) => {
+  const { key } = event;
+  if (key === "ArrowDown") {
+    vilocityPaddleY = vilocityPaddleBase;
+  } else if (key === "ArrowUp") {
+    vilocityPaddleY = -vilocityPaddleBase;
+  }
+});
+document.addEventListener("keyup", (event) => {
+  const { key } = event;
+  if (key === "ArrowDown" || key === "ArrowUp") {
+    vilocityPaddleY = 0;
+  }
+});
 
 // Render functions
 const renderBackground = () => {
@@ -62,6 +80,10 @@ const controlBall = () => {
   ballY += vilocityBallY;
 };
 
+const controlPaddle = () => {
+  paddleY += vilocityPaddleY;
+};
+
 // Debug
 const printPostions = () => {
   debug_info.innerHTML = `
@@ -75,4 +97,5 @@ render();
 const myInterval = setInterval(() => {
   render();
   controlBall();
+  controlPaddle();
 }, 1);
