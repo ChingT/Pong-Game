@@ -5,6 +5,7 @@ import { Ball } from "./ball.js";
 const canvas = document.querySelector("canvas");
 const postions = document.querySelector("#debug_info");
 const outOfWall = document.querySelector("#debug_info2");
+
 const ctx = canvas.getContext("2d");
 const CANVAS_WIDTH = canvas.width;
 const CANVAS_HEIGHT = canvas.height;
@@ -17,21 +18,15 @@ const ball = new Ball(CANVAS_WIDTH, CANVAS_HEIGHT);
 document.addEventListener("keydown", (event) => {
   const { key } = event;
   if (key === "ArrowDown") {
-    paddle.velocity = paddle.baseVelocity;
+    paddle.direction = 1
   } else if (key === "ArrowUp") {
-    paddle.velocity = -paddle.baseVelocity;
+    paddle.direction = -1
   }
 });
 document.addEventListener("keyup", (event) => {
   const { key } = event;
   if (key === "ArrowDown" || key === "ArrowUp") {
-    paddle.velocity = 0;
-  }
-});
-document.addEventListener("keypress", (event) => {
-  const { key } = event;
-  if (key === " ") {
-    pause = !pause;
+    paddle.direction = 0;
   }
 });
 
@@ -71,6 +66,6 @@ const myInterval = setInterval(() => {
   if (!pause) {
     render();
     ball.move();
-    paddle.move();
+    paddle.moveY();
   }
-}, 20);
+}, 50);

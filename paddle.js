@@ -5,9 +5,26 @@ class Paddle {
     this._init = { x: initX, y: initY };
     this._yLimit = { upper: 0, lower: canvasHeight - this._shpae.height };
 
-    this.baseVelocity = 10;
-    this.position = { x: this._init.x, y: this._init.y };
-    this.velocity = 0;
+    this._baseVelocity = 20;
+    this._position = { x: this._init.x, y: this._init.y };
+    this.direction = 0;
+  }
+
+  get position() {
+    return this._position;
+  }
+  set position(newPostion) {
+    let { x, y } = newPostion;
+    y = y < this._yLimit.upper ? this._yLimit.upper : y;
+    y = y > this._yLimit.lower ? this._yLimit.lower : y;
+    this._position = { x: x, y: y };
+  }
+
+  moveY() {
+    this.position = {
+      x: this.position.x,
+      y: this.position.y + this._baseVelocity * this.direction,
+    };
   }
 
   render(ctx) {
@@ -18,24 +35,6 @@ class Paddle {
       this._shpae.width,
       this._shpae.height
     );
-  }
-
-  move() {
-    if (this.outOfUpperWall(this.position.y + this.velocity)) {
-      this.position.y = this._yLimit.upper;
-    } else if (this.outOfLowerWall(this.position.y + this.velocity)) {
-      this.position.y = this._yLimit.lower;
-    } else {
-      this.position.y += this.velocity;
-    }
-  }
-
-  outOfUpperWall(y) {
-    return y < this._yLimit.upper;
-  }
-
-  outOfLowerWall(y) {
-    return y > this._yLimit.lower;
   }
 }
 
