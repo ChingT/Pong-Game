@@ -15,10 +15,10 @@ class Paddle {
     this._height = 80;
     this._initX = 10;
     this._initY = 20;
-    this.yUpperLimit = 0;
-    this.yLowerLimit = CANVAS_HEIGHT - this._height;
-
+    this._yUpperLimit = 0;
+    this._yLowerLimit = CANVAS_HEIGHT - this._height;
     this.baseVelocity = 10;
+
     this.x = this._initX;
     this.y = this._initY;
     this.velocity = 0;
@@ -29,12 +29,22 @@ class Paddle {
     ctx.fillRect(this.x, this.y, this._width, this._height);
   }
 
+  move() {
+    if (this.outOfUpperWall(this.y + this.velocity)) {
+      this.y = this._yUpperLimit;
+    } else if (this.outOfLowerWall(this.y + this.velocity)) {
+      this.y = this._yLowerLimit;
+    } else {
+      this.y += this.velocity;
+    }
+  }
+
   outOfUpperWall(y) {
-    return y < this.yUpperLimit;
+    return y < this._yUpperLimit;
   }
 
   outOfLowerWall(y) {
-    return y > this.yLowerLimit;
+    return y > this._yLowerLimit;
   }
 }
 
@@ -47,8 +57,8 @@ class Ball {
     this._radius = 5;
     this._initX = CANVAS_WIDTH / 2;
     this._initY = CANVAS_HEIGHT / 2;
+    this._baseVelocity = 5;
 
-    this.baseVelocity = 5;
     this.x = this._initX;
     this.y = this._initY;
     this.directionX = 1;
@@ -60,6 +70,17 @@ class Ball {
     ctx.arc(this.x, this.y, this._radius, 0, 2 * Math.PI);
     ctx.fillStyle = this._color;
     ctx.fill();
+  }
+
+  move() {
+    if (this.outOfHorizontalWall(this.x)) {
+      this.directionX = -this.directionX;
+    }
+    if (this.outOfVerticalWall(this.y)) {
+      this.directionY = -this.directionY;
+    }
+    this.x += this.directionX * this._baseVelocity;
+    this.y += this.directionY * this._baseVelocity;
   }
 
   outOfHorizontalWall(x) {
@@ -108,28 +129,6 @@ const render = () => {
   printDebugInfo();
 };
 
-// Controller functions
-const controlBall = () => {
-  if (ball.outOfHorizontalWall(ball.x)) {
-    ball.directionX = -ball.directionX;
-  }
-  if (ball.outOfVerticalWall(ball.y)) {
-    ball.directionY = -ball.directionY;
-  }
-  ball.x += ball.directionX * ball.baseVelocity;
-  ball.y += ball.directionY * ball.baseVelocity;
-};
-
-const controlPaddle = () => {
-  if (paddle.outOfUpperWall(paddle.y + paddle.velocity)) {
-    paddle.y = paddle.yUpperLimit;
-  } else if (paddle.outOfLowerWall(paddle.y + paddle.velocity)) {
-    paddle.y = paddle.yLowerLimit;
-  } else {
-    paddle.y += paddle.velocity;
-  }
-};
-
 // Debug
 const printDebugInfo = () => {
   debug_info.innerHTML = `
@@ -137,9 +136,9 @@ const printDebugInfo = () => {
   <p>Paddle (${paddle.x}, ${paddle.y})<\p>
   `;
 
-  if (paddle.y < paddle.yUpperLimit) {
+  if (paddle.y < paddle._yUpperLimit) {
     outOfWall.innerHTML = `Paddle is out of upper wall!`;
-  } else if (paddle.y > paddle.yLowerLimit) {
+  } else if (paddle.y > paddle._yLowerLimit) {
     outOfWall.innerHTML = `Paddle is out of lower wall!`;
   } else {
     outOfWall.innerHTML = "";
@@ -151,7 +150,7 @@ render();
 const myInterval = setInterval(() => {
   if (!pause) {
     render();
-    controlBall();
-    controlPaddle();
+    ball.move();
+    paddle.move();
   }
 }, 20);
