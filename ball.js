@@ -1,55 +1,38 @@
-class Ball {
-  constructor(canvasWidth, canvasHeight) {
-    this._color = "red";
-    this._radius = 5;
+import { MovingObejct } from "./base_obeject.js";
+import { renderCircle } from "./canvas.js";
 
-    this._init = { x: canvasWidth / 2, y: canvasHeight / 2 };
-    this._xLimit = { left: 0, right: canvasWidth };
-    this._yLimit = { upper: 0, lower: canvasHeight };
-
-    this._baseVelocity = 5;
-    this.position = { x: this._init.x, y: this._init.y };
-    this.direction = { x: 1, y: 1 };
-  }
-
-  get outline() {
-    return {
-      left: this.position.x - this._radius,
-      right: this.position.x + this._radius,
-      top: this.position.y - this._radius,
-      buttom: this.position.y + this._radius,
-    };
+class Ball extends MovingObejct {
+  constructor(canvasShape, initPosition) {
+    super(
+      canvasShape,
+      initPosition,
+      { width: 5, height: 5 },
+      "red",
+      { x: 1, y: 1 },
+      6
+    );
   }
 
   get outOfHorizontalWall() {
     return (
-      this.outline.left < this._xLimit.left ||
-      this.outline.right >= this._xLimit.right
+      this.outline.left <= this.limits.xMin ||
+      this.outline.right >= this.limits.xMax
     );
   }
   get outOfVerticalWall() {
     return (
-      this.outline.top < this._yLimit.upper ||
-      this.outline.buttom >= this._yLimit.lower
+      this.outline.top <= this.limits.yMin ||
+      this.outline.buttom >= this.limits.yMax
     );
   }
 
-  render(ctx) {
-    ctx.beginPath();
-    ctx.arc(this.position.x, this.position.y, this._radius, 0, 2 * Math.PI);
-    ctx.fillStyle = this._color;
-    ctx.fill();
+  render() {
+    renderCircle(this.position, this._shpae.width, this._color);
   }
 
-  move() {
-    this.checkBounce();
-    this.position.x += this.direction.x * this._baseVelocity;
-    this.position.y += this.direction.y * this._baseVelocity;
-  }
-
-  checkBounce() {
-    this.direction.x *= this.outOfHorizontalWall ? -1 : 1;
-    this.direction.y *= this.outOfVerticalWall ? -1 : 1;
+  bounce(horizontal = false, vertical = false) {
+    this.velocity.x *= horizontal ? -1 : 1;
+    this.velocity.y *= vertical ? -1 : 1;
   }
 }
 

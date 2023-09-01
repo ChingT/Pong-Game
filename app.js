@@ -1,41 +1,62 @@
+import { MovingObejct } from "./base_obeject.js";
 import { Paddle } from "./paddle.js";
 import { Ball } from "./ball.js";
-import {
-  ctx,
-  canvasWidth,
-  canvasHeight,
-  renderBackground,
-  renderMiddleLine,
-} from "./canvas.js";
+import { canvasShape } from "./canvas.js";
 import { addEventListeners, printDebugInfo } from "./helper.js";
 import { checkCollision } from "./collision.js";
 
 let pause = false;
 
-const paddleLeft = new Paddle(canvasHeight);
-const paddleRight = new Paddle(canvasHeight, canvasWidth - 30);
-const ball = new Ball(canvasWidth, canvasHeight);
+const boder = new MovingObejct(
+  canvasShape,
+  {
+    x: canvasShape.width / 2,
+    y: canvasShape.height / 2,
+  },
+  canvasShape,
+  "black"
+);
+const paddleLeft = new Paddle(canvasShape, {
+  x: 20,
+  y: canvasShape.height / 2,
+});
+const paddleRight = new Paddle(canvasShape, {
+  x: canvasShape.width - 20,
+  y: canvasShape.height / 2,
+});
+const ball = new Ball(canvasShape, {
+  x: canvasShape.width / 2,
+  y: canvasShape.height / 2,
+});
 
 addEventListeners(paddleLeft, paddleRight);
 
-const render = () => {
-  renderBackground();
-  paddleLeft.render(ctx);
-  paddleRight.render(ctx);
-  ball.render(ctx);
-  renderMiddleLine();
+document.addEventListener("keypress", (event) => {
+  const { key } = event;
+  if (key === " ") {
+    pause = !pause;
+  }
+});
 
-  printDebugInfo(paddleLeft, ball);
+const render = () => {
+  boder.render();
+  paddleLeft.render();
+  paddleRight.render();
+  ball.render();
+};
+
+const move = () => {
+  paddleLeft.move();
+  paddleRight.move();
+  ball.move();
 };
 
 //  Call the functions
-render();
 const myInterval = setInterval(() => {
   if (!pause) {
     render();
-    ball.move();
-    paddleLeft.moveY();
-    paddleRight.moveY();
-    checkCollision(paddleLeft, paddleRight, ball);
+    move();
+    checkCollision(ball, boder, paddleLeft, paddleRight);
+    printDebugInfo(ball, boder, paddleLeft, paddleRight);
   }
 }, 50);
