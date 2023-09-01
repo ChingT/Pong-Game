@@ -65,7 +65,7 @@ const render = () => {
 // Debug
 const printDebugInfo = () => {
   postions.innerHTML = `
-  <p>Ball (${ball.x}, ${ball.y})<\p>
+  <p>Ball (${ball.position.x}, ${ball.position.y})<\p>
   <p>Paddle (${paddleLeft.position.x}, ${paddleLeft.position.y})<\p>
   `;
 
