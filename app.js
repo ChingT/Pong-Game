@@ -1,3 +1,6 @@
+import { Paddle } from "./paddle.js";
+import { Ball } from "./ball.js";
+
 // Canvas
 const canvas = document.querySelector("canvas");
 const postions = document.querySelector("#debug_info");
@@ -7,91 +10,8 @@ const CANVAS_WIDTH = canvas.width;
 const CANVAS_HEIGHT = canvas.height;
 let pause = false;
 
-// Paddle
-class Paddle {
-  constructor() {
-    this._color = "green";
-    this._width = 20;
-    this._height = 80;
-    this._initX = 10;
-    this._initY = 20;
-    this._yUpperLimit = 0;
-    this._yLowerLimit = CANVAS_HEIGHT - this._height;
-    this.baseVelocity = 10;
-
-    this.x = this._initX;
-    this.y = this._initY;
-    this.velocity = 0;
-  }
-
-  render() {
-    ctx.fillStyle = this._color;
-    ctx.fillRect(this.x, this.y, this._width, this._height);
-  }
-
-  move() {
-    if (this.outOfUpperWall(this.y + this.velocity)) {
-      this.y = this._yUpperLimit;
-    } else if (this.outOfLowerWall(this.y + this.velocity)) {
-      this.y = this._yLowerLimit;
-    } else {
-      this.y += this.velocity;
-    }
-  }
-
-  outOfUpperWall(y) {
-    return y < this._yUpperLimit;
-  }
-
-  outOfLowerWall(y) {
-    return y > this._yLowerLimit;
-  }
-}
-
-const paddle = new Paddle();
-
-// Ball
-class Ball {
-  constructor() {
-    this._color = "red";
-    this._radius = 5;
-    this._initX = CANVAS_WIDTH / 2;
-    this._initY = CANVAS_HEIGHT / 2;
-    this._baseVelocity = 5;
-
-    this.x = this._initX;
-    this.y = this._initY;
-    this.directionX = 1;
-    this.directionY = 1;
-  }
-
-  render() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this._radius, 0, 2 * Math.PI);
-    ctx.fillStyle = this._color;
-    ctx.fill();
-  }
-
-  move() {
-    if (this.outOfHorizontalWall(this.x)) {
-      this.directionX = -this.directionX;
-    }
-    if (this.outOfVerticalWall(this.y)) {
-      this.directionY = -this.directionY;
-    }
-    this.x += this.directionX * this._baseVelocity;
-    this.y += this.directionY * this._baseVelocity;
-  }
-
-  outOfHorizontalWall(x) {
-    return x < this._radius || x > CANVAS_WIDTH - this._radius;
-  }
-  outOfVerticalWall(y) {
-    return y < this._radius || y > CANVAS_HEIGHT - this._radius;
-  }
-}
-
-const ball = new Ball();
+const paddle = new Paddle(CANVAS_HEIGHT);
+const ball = new Ball(CANVAS_WIDTH, CANVAS_HEIGHT);
 
 // EventListener
 document.addEventListener("keydown", (event) => {
@@ -123,8 +43,8 @@ const renderBackground = () => {
 
 const render = () => {
   renderBackground();
-  paddle.render();
-  ball.render();
+  paddle.render(ctx);
+  ball.render(ctx);
 
   printDebugInfo();
 };
@@ -136,9 +56,9 @@ const printDebugInfo = () => {
   <p>Paddle (${paddle.x}, ${paddle.y})<\p>
   `;
 
-  if (paddle.y < paddle._yUpperLimit) {
+  if (paddle.y < paddle._yLimit) {
     outOfWall.innerHTML = `Paddle is out of upper wall!`;
-  } else if (paddle.y > paddle._yLowerLimit) {
+  } else if (paddle.y > paddle._yLimit) {
     outOfWall.innerHTML = `Paddle is out of lower wall!`;
   } else {
     outOfWall.innerHTML = "";
