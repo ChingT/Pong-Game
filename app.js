@@ -10,19 +10,23 @@ let pause = false;
 // Paddle
 class Paddle {
   constructor() {
-    this.width = 20;
-    this.height = 80;
-    this.initX = 10;
-    this.initY = 20;
-
-    this.color = "green";
-    this.baseVelocity = 10;
-
-    this.x = this.initX;
-    this.y = this.initY;
-    this.velocity = 0;
+    this._color = "green";
+    this._width = 20;
+    this._height = 80;
+    this._initX = 10;
+    this._initY = 20;
     this.yUpperLimit = 0;
-    this.yLowerLimit = CANVAS_HEIGHT - this.height;
+    this.yLowerLimit = CANVAS_HEIGHT - this._height;
+
+    this.baseVelocity = 10;
+    this.x = this._initX;
+    this.y = this._initY;
+    this.velocity = 0;
+  }
+
+  render() {
+    ctx.fillStyle = this._color;
+    ctx.fillRect(this.x, this.y, this._width, this._height);
   }
 
   outOfUpperWall(y) {
@@ -39,22 +43,30 @@ const paddle = new Paddle();
 // Ball
 class Ball {
   constructor() {
-    this.color = "red";
-    this.radius = 5;
-    this.initX = CANVAS_WIDTH / 2;
-    this.initY = CANVAS_HEIGHT / 2;
-    this.x = this.initX;
-    this.y = this.initY;
+    this._color = "red";
+    this._radius = 5;
+    this._initX = CANVAS_WIDTH / 2;
+    this._initY = CANVAS_HEIGHT / 2;
+
+    this.baseVelocity = 5;
+    this.x = this._initX;
+    this.y = this._initY;
     this.directionX = 1;
     this.directionY = 1;
-    this.baseVelocity = 5;
+  }
+
+  render() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this._radius, 0, 2 * Math.PI);
+    ctx.fillStyle = this._color;
+    ctx.fill();
   }
 
   outOfHorizontalWall(x) {
-    return x < this.radius || x > CANVAS_WIDTH - this.radius;
+    return x < this._radius || x > CANVAS_WIDTH - this._radius;
   }
   outOfVerticalWall(y) {
-    return y < this.radius || y > CANVAS_HEIGHT - this.radius;
+    return y < this._radius || y > CANVAS_HEIGHT - this._radius;
   }
 }
 
@@ -87,21 +99,11 @@ const renderBackground = () => {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 };
-const renderBall = (x, y) => {
-  ctx.beginPath();
-  ctx.arc(x, y, ball.radius, 0, 2 * Math.PI);
-  ctx.fillStyle = ball.color;
-  ctx.fill();
-};
-const renderPaddle = (x, y) => {
-  ctx.fillStyle = paddle.color;
-  ctx.fillRect(x, y, paddle.width, paddle.height);
-};
 
 const render = () => {
   renderBackground();
-  renderPaddle(paddle.x, paddle.y);
-  renderBall(ball.x, ball.y);
+  paddle.render();
+  ball.render();
 
   printDebugInfo();
 };
