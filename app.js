@@ -7,24 +7,39 @@ const CANVAS_HEIGHT = canvas.height;
 let pause = false;
 
 // Paddle
-const PADDLE_COLOR = "white";
-const PaddleWidth = 20;
-const PaddleHeight = 80;
-const InitPaddleX = 10;
-const InitPaddleY = 20;
-const baseVelocityPaddle = 1;
-let paddleX = InitPaddleX;
-let paddleY = InitPaddleY;
-let velocityPaddleY = 0;
-const paddleYLimit = [0, CANVAS_HEIGHT - PaddleHeight];
-const paddleOutOfUpperWall = (y) => y < paddleYLimit[0];
-const paddleOutOfLowerWall = (y) => y >= paddleYLimit[1];
+class Paddle {
+  constructor() {
+    this.width = 20;
+    this.height = 80;
+    this.initX = 10;
+    this.initY = 20;
+
+    this.color = "green";
+    this.baseVelocity = 10;
+
+    this.x = this.initX;
+    this.y = this.initY;
+    this.velocity = 0;
+    this.yUpperLimit = 0;
+    this.yLowerLimit = CANVAS_HEIGHT - this.height;
+  }
+
+  outOfUpperWall(y) {
+    return y < this.yUpperLimit;
+  }
+
+  outOfLowerWall(y) {
+    return y > this.yLowerLimit;
+  }
+}
+
+const paddle = new Paddle();
 
 // Ball
 const BALL_COLOR = "red";
 const RADIUS = 5;
-const InitBallX = InitPaddleX + PaddleWidth + RADIUS;
-const InitBallY = InitPaddleY + PaddleHeight / 2;
+const InitBallX = CANVAS_WIDTH / 2;
+const InitBallY = CANVAS_HEIGHT / 2;
 let ballX = InitBallX;
 let ballY = InitBallY;
 let velocityBallX = 1;
@@ -36,15 +51,15 @@ const ballOutOfWallV = (y) => y < RADIUS || y >= CANVAS_HEIGHT - RADIUS;
 document.addEventListener("keydown", (event) => {
   const { key } = event;
   if (key === "ArrowDown") {
-    velocityPaddleY = baseVelocityPaddle;
+    paddle.velocity = paddle.baseVelocity;
   } else if (key === "ArrowUp") {
-    velocityPaddleY = -baseVelocityPaddle;
+    paddle.velocity = -paddle.baseVelocity;
   }
 });
 document.addEventListener("keyup", (event) => {
   const { key } = event;
   if (key === "ArrowDown" || key === "ArrowUp") {
-    velocityPaddleY = 0;
+    paddle.velocity = 0;
   }
 });
 document.addEventListener("keypress", (event) => {
@@ -66,13 +81,13 @@ const renderBall = (x, y) => {
   ctx.fill();
 };
 const renderPaddle = (x, y) => {
-  ctx.fillStyle = PADDLE_COLOR;
-  ctx.fillRect(x, y, PaddleWidth, PaddleHeight);
+  ctx.fillStyle = paddle.color;
+  ctx.fillRect(x, y, paddle.width, paddle.height);
 };
 
 const render = () => {
   renderBackground();
-  renderPaddle(paddleX, paddleY);
+  renderPaddle(paddle.x, paddle.y);
   renderBall(ballX, ballY);
 
   printPostions();
@@ -91,12 +106,12 @@ const controlBall = () => {
 };
 
 const controlPaddle = () => {
-  if (paddleOutOfUpperWall(paddleY + velocityPaddleY)) {
-    paddleY = paddleYLimit[0];
-  } else if (paddleOutOfLowerWall(paddleY + velocityPaddleY)) {
-    paddleY = paddleYLimit[1];
+  if (paddle.outOfUpperWall(paddle.y + paddle.velocity)) {
+    paddle.y = paddle.yUpperLimit;
+  } else if (paddle.outOfLowerWall(paddle.y + paddle.velocity)) {
+    paddle.y = paddle.yLowerLimit;
   } else {
-    paddleY += velocityPaddleY;
+    paddle.y += paddle.velocity;
   }
 };
 
