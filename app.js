@@ -11,22 +11,29 @@ const CANVAS_WIDTH = canvas.width;
 const CANVAS_HEIGHT = canvas.height;
 let pause = false;
 
-const paddle = new Paddle(CANVAS_HEIGHT);
+const paddleLeft = new Paddle(CANVAS_HEIGHT);
+const paddleRight = new Paddle(CANVAS_HEIGHT, CANVAS_WIDTH - 30);
 const ball = new Ball(CANVAS_WIDTH, CANVAS_HEIGHT);
 
 // EventListener
 document.addEventListener("keydown", (event) => {
   const { key } = event;
   if (key === "ArrowDown") {
-    paddle.direction = 1
+    paddleLeft.direction = 1;
   } else if (key === "ArrowUp") {
-    paddle.direction = -1
+    paddleLeft.direction = -1;
+  } else if (key === "2") {
+    paddleRight.direction = 1;
+  } else if (key === "8") {
+    paddleRight.direction = -1;
   }
 });
 document.addEventListener("keyup", (event) => {
   const { key } = event;
   if (key === "ArrowDown" || key === "ArrowUp") {
-    paddle.direction = 0;
+    paddleLeft.direction = 0;
+  } else if (key === "2" || key === "8") {
+    paddleRight.direction = 0;
   }
 });
 
@@ -38,7 +45,8 @@ const renderBackground = () => {
 
 const render = () => {
   renderBackground();
-  paddle.render(ctx);
+  paddleLeft.render(ctx);
+  paddleRight.render(ctx);
   ball.render(ctx);
 
   printDebugInfo();
@@ -48,12 +56,12 @@ const render = () => {
 const printDebugInfo = () => {
   postions.innerHTML = `
   <p>Ball (${ball.x}, ${ball.y})<\p>
-  <p>Paddle (${paddle.position.x}, ${paddle.position.y})<\p>
+  <p>Paddle (${paddleLeft.position.x}, ${paddleLeft.position.y})<\p>
   `;
 
-  if (paddle.position.y < paddle._yLimit.upper) {
+  if (paddleLeft.position.y < paddleLeft._yLimit.upper) {
     outOfWall.textContent = `Paddle is out of upper wall!`;
-  } else if (paddle.position.y > paddle._yLimit.lower) {
+  } else if (paddleLeft.position.y > paddleLeft._yLimit.lower) {
     outOfWall.textContent = `Paddle is out of lower wall!`;
   } else {
     outOfWall.textContent = "";
@@ -66,6 +74,7 @@ const myInterval = setInterval(() => {
   if (!pause) {
     render();
     ball.move();
-    paddle.moveY();
+    paddleLeft.moveY();
+    paddleRight.moveY();
   }
 }, 50);
