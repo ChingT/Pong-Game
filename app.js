@@ -8,6 +8,7 @@ import {
   renderMiddleLine,
 } from "./canvas.js";
 import { addEventListeners, printDebugInfo } from "./helper.js";
+import { checkCollision } from "./collision.js";
 
 let pause = false;
 
@@ -35,5 +36,6 @@ const myInterval = setInterval(() => {
     ball.move();
     paddleLeft.moveY();
     paddleRight.moveY();
+    checkCollision(paddleLeft, paddleRight, ball);
   }
 }, 50);
