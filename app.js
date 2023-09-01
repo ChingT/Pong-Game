@@ -16,6 +16,9 @@ const baseVelocityPaddle = 1;
 let paddleX = InitPaddleX;
 let paddleY = InitPaddleY;
 let velocityPaddleY = 0;
+const paddleYLimit = [0, CANVAS_HEIGHT - PaddleHeight];
+const paddleOutOfUpperWall = (y) => y < paddleYLimit[0];
+const paddleOutOfLowerWall = (y) => y >= paddleYLimit[1];
 
 // Ball
 const BALL_COLOR = "red";
@@ -88,7 +91,13 @@ const controlBall = () => {
 };
 
 const controlPaddle = () => {
-  paddleY += vilocityPaddleY;
+  if (paddleOutOfUpperWall(paddleY + velocityPaddleY)) {
+    paddleY = paddleYLimit[0];
+  } else if (paddleOutOfLowerWall(paddleY + velocityPaddleY)) {
+    paddleY = paddleYLimit[1];
+  } else {
+    paddleY += velocityPaddleY;
+  }
 };
 
 // Debug
