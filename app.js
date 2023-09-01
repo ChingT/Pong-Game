@@ -42,12 +42,22 @@ const renderBackground = () => {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 };
+const renderMiddleLine = () => {
+  ctx.setLineDash([10, 10]);
+  ctx.beginPath();
+  ctx.moveTo(CANVAS_WIDTH / 2, 0);
+  ctx.lineTo(CANVAS_WIDTH / 2, CANVAS_HEIGHT);
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+};
 
 const render = () => {
   renderBackground();
   paddleLeft.render(ctx);
   paddleRight.render(ctx);
   ball.render(ctx);
+  renderMiddleLine();
 
   printDebugInfo();
 };
