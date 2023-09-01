@@ -4,24 +4,33 @@ class Ball {
     this._radius = 5;
 
     this._init = { x: canvasWidth / 2, y: canvasHeight / 2 };
-    this._xLimit = { left: this._radius, right: canvasWidth - this._radius };
-    this._yLimit = { upper: this._radius, lower: canvasHeight - this._radius };
+    this._xLimit = { left: 0, right: canvasWidth };
+    this._yLimit = { upper: 0, lower: canvasHeight };
 
     this._baseVelocity = 5;
     this.position = { x: this._init.x, y: this._init.y };
     this.direction = { x: 1, y: 1 };
   }
 
+  get outline() {
+    return {
+      left: this.position.x - this._radius,
+      right: this.position.x + this._radius,
+      top: this.position.y - this._radius,
+      buttom: this.position.y + this._radius,
+    };
+  }
+
   get outOfHorizontalWall() {
     return (
-      this.position.x < this._xLimit.left ||
-      this.position.x >= this._xLimit.right
+      this.outline.left < this._xLimit.left ||
+      this.outline.right >= this._xLimit.right
     );
   }
   get outOfVerticalWall() {
     return (
-      this.position.y < this._yLimit.upper ||
-      this.position.y >= this._yLimit.lower
+      this.outline.top < this._yLimit.upper ||
+      this.outline.buttom >= this._yLimit.lower
     );
   }
 

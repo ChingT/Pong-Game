@@ -10,6 +10,15 @@ class Paddle {
     this.direction = 0;
   }
 
+  get outline() {
+    return {
+      left: this.position.x,
+      right: this.position.x + this._shpae.width,
+      top: this.position.y,
+      buttom: this.position.y + this._shpae.height,
+    };
+  }
+
   get position() {
     return this._position;
   }
