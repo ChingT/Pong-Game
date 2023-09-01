@@ -4,6 +4,7 @@ const ball_postion = document.querySelector("#debug_info");
 const ctx = canvas.getContext("2d");
 const CANVAS_WIDTH = canvas.width;
 const CANVAS_HEIGHT = canvas.height;
+let pause = false;
 
 // Paddle
 const PADDLE_COLOR = "white";
@@ -41,6 +42,12 @@ document.addEventListener("keyup", (event) => {
   const { key } = event;
   if (key === "ArrowDown" || key === "ArrowUp") {
     vilocityPaddleY = 0;
+  }
+});
+document.addEventListener("keypress", (event) => {
+  const { key } = event;
+  if (key === " ") {
+    pause = !pause;
   }
 });
 
@@ -95,7 +102,9 @@ const printPostions = () => {
 //  Call the functions
 render();
 const myInterval = setInterval(() => {
-  render();
-  controlBall();
-  controlPaddle();
+  if (!pause) {
+    render();
+    controlBall();
+    controlPaddle();
+  }
 }, 1);
