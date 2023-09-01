@@ -1,33 +1,32 @@
 class Paddle {
-  constructor(canvasHeight) {
+  constructor(canvasHeight, initX = 10, initY = 20) {
     this._color = "green";
-    this._width = 20;
-    this._height = 80;
-    this._initX = 10;
-    this._initY = 20;
-    this._yLimit = {
-      upper: 0,
-      lower: canvasHeight - this._height,
-    };
+    this._shpae = { width: 20, height: 80 };
+    this._init = { x: initX, y: initY };
+    this._yLimit = { upper: 0, lower: canvasHeight - this._shpae.height };
 
     this.baseVelocity = 10;
-    this.x = this._initX;
-    this.y = this._initY;
+    this.position = { x: this._init.x, y: this._init.y };
     this.velocity = 0;
   }
 
   render(ctx) {
     ctx.fillStyle = this._color;
-    ctx.fillRect(this.x, this.y, this._width, this._height);
+    ctx.fillRect(
+      this.position.x,
+      this.position.y,
+      this._shpae.width,
+      this._shpae.height
+    );
   }
 
   move() {
-    if (this.outOfUpperWall(this.y + this.velocity)) {
-      this.y = this._yLimit.upper;
-    } else if (this.outOfLowerWall(this.y + this.velocity)) {
-      this.y = this._yLimit.lower;
+    if (this.outOfUpperWall(this.position.y + this.velocity)) {
+      this.position.y = this._yLimit.upper;
+    } else if (this.outOfLowerWall(this.position.y + this.velocity)) {
+      this.position.y = this._yLimit.lower;
     } else {
-      this.y += this.velocity;
+      this.position.y += this.velocity;
     }
   }
 

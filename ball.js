@@ -2,40 +2,32 @@ class Ball {
   constructor(canvasWidth, canvasHeight) {
     this._color = "red";
     this._radius = 5;
-    this._initX = canvasWidth / 2;
-    this._initY = canvasHeight / 2;
-    this._xLimit = {
-      upper: this._radius,
-      lower: canvasWidth - this._radius,
-    };
-    this._yLimit = {
-      upper: this._radius,
-      lower: canvasHeight - this._radius,
-    };
+
+    this._init = { x: canvasWidth / 2, y: canvasHeight / 2 };
+    this._xLimit = { upper: this._radius, lower: canvasWidth - this._radius };
+    this._yLimit = { upper: this._radius, lower: canvasHeight - this._radius };
 
     this._baseVelocity = 5;
-    this.x = this._initX;
-    this.y = this._initY;
-    this.directionX = 1;
-    this.directionY = 1;
+    this.position = { x: this._init.x, y: this._init.y };
+    this.direction = { x: 1, y: 1 };
   }
 
   render(ctx) {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this._radius, 0, 2 * Math.PI);
+    ctx.arc(this.position.x, this.position.y, this._radius, 0, 2 * Math.PI);
     ctx.fillStyle = this._color;
     ctx.fill();
   }
 
   move() {
-    if (this.outOfHorizontalWall(this.x)) {
-      this.directionX = -this.directionX;
+    if (this.outOfHorizontalWall(this.position.x)) {
+      this.direction.x = -this.direction.x;
     }
-    if (this.outOfVerticalWall(this.y)) {
-      this.directionY = -this.directionY;
+    if (this.outOfVerticalWall(this.position.y)) {
+      this.direction.y = -this.direction.y;
     }
-    this.x += this.directionX * this._baseVelocity;
-    this.y += this.directionY * this._baseVelocity;
+    this.position.x += this.direction.x * this._baseVelocity;
+    this.position.y += this.direction.y * this._baseVelocity;
   }
 
   outOfHorizontalWall(x) {

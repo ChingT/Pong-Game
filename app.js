@@ -51,17 +51,17 @@ const render = () => {
 
 // Debug
 const printDebugInfo = () => {
-  debug_info.innerHTML = `
+  postions.innerHTML = `
   <p>Ball (${ball.x}, ${ball.y})<\p>
-  <p>Paddle (${paddle.x}, ${paddle.y})<\p>
+  <p>Paddle (${paddle.position.x}, ${paddle.position.y})<\p>
   `;
 
-  if (paddle.y < paddle._yLimit) {
-    outOfWall.innerHTML = `Paddle is out of upper wall!`;
-  } else if (paddle.y > paddle._yLimit) {
-    outOfWall.innerHTML = `Paddle is out of lower wall!`;
+  if (paddle.position.y < paddle._yLimit.upper) {
+    outOfWall.textContent = `Paddle is out of upper wall!`;
+  } else if (paddle.position.y > paddle._yLimit.lower) {
+    outOfWall.textContent = `Paddle is out of lower wall!`;
   } else {
-    outOfWall.innerHTML = "";
+    outOfWall.textContent = "";
   }
 };
 
