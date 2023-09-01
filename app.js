@@ -21,6 +21,8 @@ const InitBallX = InitPaddleX + PaddleWidth + RADIUS;
 const InitBallY = InitPaddleY + PaddleHeight / 2;
 let ballX = InitBallX;
 let ballY = InitBallY;
+let vilocityBallX = 1;
+let vilocityBallY = 1;
 
 // Render functions
 const renderBackground = () => {
@@ -46,6 +48,12 @@ const render = () => {
   printPostions();
 };
 
+// Controller functions
+const controlBall = () => {
+  ballX += vilocityBallX;
+  ballY += vilocityBallY;
+};
+
 // Debug
 const printPostions = () => {
   debug_info.innerHTML = `
@@ -58,4 +66,5 @@ const printPostions = () => {
 render();
 const myInterval = setInterval(() => {
   render();
+  controlBall();
 }, 1);
