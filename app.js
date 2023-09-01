@@ -1,19 +1,18 @@
 import { Paddle } from "./paddle.js";
 import { Ball } from "./ball.js";
+import {
+  ctx,
+  canvasWidth,
+  canvasHeight,
+  renderBackground,
+  renderMiddleLine,
+} from "./canvas.js";
 
-// Canvas
-const canvas = document.querySelector("canvas");
-const postions = document.querySelector("#debug_info");
-const outOfWall = document.querySelector("#debug_info2");
-
-const ctx = canvas.getContext("2d");
-const CANVAS_WIDTH = canvas.width;
-const CANVAS_HEIGHT = canvas.height;
 let pause = false;
 
-const paddleLeft = new Paddle(CANVAS_HEIGHT);
-const paddleRight = new Paddle(CANVAS_HEIGHT, CANVAS_WIDTH - 30);
-const ball = new Ball(CANVAS_WIDTH, CANVAS_HEIGHT);
+const paddleLeft = new Paddle(canvasHeight);
+const paddleRight = new Paddle(canvasHeight, canvasWidth - 30);
+const ball = new Ball(canvasWidth, canvasHeight);
 
 // EventListener
 document.addEventListener("keydown", (event) => {
@@ -37,21 +36,6 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
-// Render functions
-const renderBackground = () => {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-};
-const renderMiddleLine = () => {
-  ctx.setLineDash([10, 10]);
-  ctx.beginPath();
-  ctx.moveTo(CANVAS_WIDTH / 2, 0);
-  ctx.lineTo(CANVAS_WIDTH / 2, CANVAS_HEIGHT);
-  ctx.strokeStyle = "white";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-};
-
 const render = () => {
   renderBackground();
   paddleLeft.render(ctx);
@@ -63,6 +47,8 @@ const render = () => {
 };
 
 // Debug
+const postions = document.querySelector("#debug_info");
+const outOfWall = document.querySelector("#debug_info2");
 const printDebugInfo = () => {
   postions.innerHTML = `
   <p>Ball (${ball.position.x}, ${ball.position.y})<\p>
