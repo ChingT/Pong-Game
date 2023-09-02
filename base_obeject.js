@@ -17,10 +17,10 @@ class BaseObejct {
 
   get outline() {
     return {
-      left: this.position.x - this._shpae.width / 2,
-      right: this.position.x + this._shpae.width / 2,
-      top: this.position.y - this._shpae.height / 2,
-      buttom: this.position.y + this._shpae.height / 2,
+      xMin: this.position.x - this._shpae.width / 2,
+      xMax: this.position.x + this._shpae.width / 2,
+      yMin: this.position.y - this._shpae.height / 2,
+      yMax: this.position.y + this._shpae.height / 2,
     };
   }
 

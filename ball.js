@@ -15,14 +15,14 @@ class Ball extends MovingObejct {
 
   get outOfHorizontalWall() {
     return (
-      this.outline.left <= this.limits.xMin ||
-      this.outline.right >= this.limits.xMax
+      this.outline.xMin <= this.limits.xMin ||
+      this.outline.xMax >= this.limits.xMax
     );
   }
   get outOfVerticalWall() {
     return (
-      this.outline.top <= this.limits.yMin ||
-      this.outline.buttom >= this.limits.yMax
+      this.outline.yMin <= this.limits.yMin ||
+      this.outline.yMax >= this.limits.yMax
     );
   }
 

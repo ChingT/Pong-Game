@@ -29,8 +29,8 @@ const printDebugInfo = (ball, boder, paddleLeft, paddleRight) => {
   postions.innerHTML = `
   <p>Boder (${boder.position.x}, ${boder.position.y})<\p>
   <p>Ball (${ball.position.x}, ${ball.position.y})<\p>
-  <p>paddleLeft (${paddleLeft.position.x}, ${paddleLeft.position.y})<\p>
-  <p>paddleRight (${paddleRight.position.x}, ${paddleRight.position.y})<\p>
+  <p>paddleLeft (${paddleLeft.position.x}, ${paddleLeft.position.y})
+     paddleRight (${paddleRight.position.x}, ${paddleRight.position.y})<\p>
   `;
 
   if (paddleLeft.position.y < paddleLeft.limits.yMin) {

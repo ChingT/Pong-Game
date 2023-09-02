@@ -19,18 +19,8 @@ const touched = (aMin, aMax, bMin, bMax) => aMin == bMin || aMax == bMax;
 const overlapped = (aMin, aMax, bMin, bMax) => aMin <= bMax && bMin <= aMax;
 
 const hasCollision = (obj1, obj2, checkFn) => {
-  const {
-    left: left1,
-    right: right1,
-    top: top1,
-    buttom: buttom1,
-  } = obj1.outline;
-  const {
-    left: left2,
-    right: right2,
-    top: top2,
-    buttom: buttom2,
-  } = obj2.outline;
+  const { xMin: left1, xMax: right1, yMin: top1, yMax: buttom1 } = obj1.outline;
+  const { xMin: left2, xMax: right2, yMin: top2, yMax: buttom2 } = obj2.outline;
 
   const h = checkFn(left1, right1, left2, right2);
   const v = checkFn(top1, buttom1, top2, buttom2);
