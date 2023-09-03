@@ -21,41 +21,49 @@ const checkCollision = (ball, border, paddleLeft, paddleRight) => {
 const touchborder = (obj, border) => {
   return {
     left:
-      obj.outline.xMin <= border.outline.xMin ? border.outline.xMin : undefined,
+      obj.boundingBox.xMin <= border.boundingBox.xMin
+        ? border.boundingBox.xMin
+        : undefined,
     right:
-      obj.outline.xMax >= border.outline.xMax ? border.outline.xMax : undefined,
+      obj.boundingBox.xMax >= border.boundingBox.xMax
+        ? border.boundingBox.xMax
+        : undefined,
     top:
-      obj.outline.yMin <= border.outline.yMin ? border.outline.yMin : undefined,
+      obj.boundingBox.yMin <= border.boundingBox.yMin
+        ? border.boundingBox.yMin
+        : undefined,
     bottom:
-      obj.outline.yMax >= border.outline.yMax ? border.outline.yMax : undefined,
+      obj.boundingBox.yMax >= border.boundingBox.yMax
+        ? border.boundingBox.yMax
+        : undefined,
   };
 };
 
 const touchPaddle = (ball, paddle) => {
   const isOverlap = (minA, maxA, minB, maxB) => minA <= maxB && minB <= maxA;
   const xOverlapped = isOverlap(
-    ball.outline.xMin,
-    ball.outline.xMax,
-    paddle.outline.xMin,
-    paddle.outline.xMax
+    ball.boundingBox.xMin,
+    ball.boundingBox.xMax,
+    paddle.boundingBox.xMin,
+    paddle.boundingBox.xMax
   );
   const yOverlapped = isOverlap(
-    ball.outline.yMin,
-    ball.outline.yMax,
-    paddle.outline.yMin,
-    paddle.outline.yMax
+    ball.boundingBox.yMin,
+    ball.boundingBox.yMax,
+    paddle.boundingBox.yMin,
+    paddle.boundingBox.yMax
   );
 
   const isInRange = (value, min, max) => value >= min && value <= max;
   const xInRange = isInRange(
     ball.position.x,
-    paddle.outline.xMin,
-    paddle.outline.xMax
+    paddle.boundingBox.xMin,
+    paddle.boundingBox.xMax
   );
   const yInRange = isInRange(
     ball.position.y,
-    paddle.outline.yMin,
-    paddle.outline.yMax
+    paddle.boundingBox.yMin,
+    paddle.boundingBox.yMax
   );
 
   const horizontal = xOverlapped && yInRange;
@@ -63,20 +71,20 @@ const touchPaddle = (ball, paddle) => {
 
   return {
     left:
-      paddle.outline.xMin <= ball.outline.xMin && horizontal
-        ? paddle.outline.xMax
+      paddle.boundingBox.xMin <= ball.boundingBox.xMin && horizontal
+        ? paddle.boundingBox.xMax
         : undefined,
     right:
-      paddle.outline.xMax >= ball.outline.xMax && horizontal
-        ? paddle.outline.xMin
+      paddle.boundingBox.xMax >= ball.boundingBox.xMax && horizontal
+        ? paddle.boundingBox.xMin
         : undefined,
     top:
-      paddle.outline.yMin <= ball.outline.yMin && vertical
-        ? paddle.outline.yMax
+      paddle.boundingBox.yMin <= ball.boundingBox.yMin && vertical
+        ? paddle.boundingBox.yMax
         : undefined,
     bottom:
-      paddle.outline.yMax >= ball.outline.yMax && vertical
-        ? paddle.outline.yMin
+      paddle.boundingBox.yMax >= ball.boundingBox.yMax && vertical
+        ? paddle.boundingBox.yMin
         : undefined,
   };
 };

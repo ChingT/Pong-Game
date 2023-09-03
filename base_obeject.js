@@ -15,7 +15,7 @@ class BaseObejct {
     };
   }
 
-  get outline() {
+  get boundingBox() {
     return {
       xMin: this.position.x - this._shpae.width / 2,
       xMax: this.position.x + this._shpae.width / 2,
