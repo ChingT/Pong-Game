@@ -23,11 +23,11 @@ const addEventListeners = (paddleLeft, paddleRight) => {
 };
 
 // Debug
-const printDebugInfo = (ball, boder, paddleLeft, paddleRight) => {
+const printDebugInfo = (ball, border, paddleLeft, paddleRight) => {
   const postions = document.querySelector("#debug_info");
   const outOfWall = document.querySelector("#debug_info2");
   postions.innerHTML = `
-  <p>Boder (${boder.position.x}, ${boder.position.y})<\p>
+  <p>border (${border.position.x}, ${border.position.y})<\p>
   <p>Ball (${ball.position.x}, ${ball.position.y})<\p>
   <p>paddleLeft (${paddleLeft.position.x}, ${paddleLeft.position.y})
      paddleRight (${paddleRight.position.x}, ${paddleRight.position.y})<\p>

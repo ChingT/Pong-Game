@@ -7,7 +7,7 @@ import { checkCollision } from "./collision.js";
 
 let pause = false;
 
-const boder = new MovingObejct(
+const border = new MovingObejct(
   canvasShape,
   {
     x: canvasShape.width / 2,
@@ -39,7 +39,7 @@ document.addEventListener("keypress", (event) => {
 });
 
 const render = () => {
-  boder.render();
+  border.render();
   paddleLeft.render();
   paddleRight.render();
   ball.render();
@@ -56,7 +56,7 @@ const myInterval = setInterval(() => {
   if (!pause) {
     render();
     move();
-    checkCollision(ball, boder, paddleLeft, paddleRight);
-    printDebugInfo(ball, boder, paddleLeft, paddleRight);
+    checkCollision(ball, border, paddleLeft, paddleRight);
+    printDebugInfo(ball, border, paddleLeft, paddleRight);
   }
 }, 50);
