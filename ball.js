@@ -13,26 +13,13 @@ class Ball extends MovingObejct {
     );
   }
 
-  get outOfHorizontalWall() {
-    return (
-      this.outline.xMin <= this.limits.xMin ||
-      this.outline.xMax >= this.limits.xMax
-    );
-  }
-  get outOfVerticalWall() {
-    return (
-      this.outline.yMin <= this.limits.yMin ||
-      this.outline.yMax >= this.limits.yMax
-    );
-  }
-
   render() {
     renderCircle(this.position, this._shpae.width, this._color);
   }
 
-  bounce(horizontal = false, vertical = false) {
-    this.velocity.x *= horizontal ? -1 : 1;
-    this.velocity.y *= vertical ? -1 : 1;
+  bounce(collision) {
+    this.velocity.x *= collision.horizontal ? -1 : 1;
+    this.velocity.y *= collision.vertical ? -1 : 1;
   }
 }
 
