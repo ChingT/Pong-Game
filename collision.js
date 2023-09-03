@@ -1,9 +1,12 @@
 const checkCollision = (ball, border, paddleLeft, paddleRight) => {
   paddleLeft.manageCollision(touchborder(paddleLeft, border));
   paddleRight.manageCollision(touchborder(paddleRight, border));
-  ball.manageCollision(touchborder(ball, border));
   ball.manageCollision(touchPaddle(ball, paddleLeft));
   ball.manageCollision(touchPaddle(ball, paddleRight));
+
+  let collision = touchborder(ball, border);
+  ball.manageCollision(collision);
+  return collision;
 };
 
 const touchborder = (obj, border) => {

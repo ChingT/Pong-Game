@@ -4,6 +4,7 @@ import { Ball } from "./ball.js";
 import { canvasShape } from "./canvas.js";
 import { addEventListeners, printDebugInfo } from "./helper.js";
 import { checkCollision } from "./collision.js";
+import { Player } from "./player.js";
 
 let pause = false;
 
@@ -18,6 +19,9 @@ const paddleRight = new Paddle({
   y: canvasShape.height / 2,
 });
 const ball = new Ball({ x: canvasShape.width / 2, y: canvasShape.height / 2 });
+
+const player1 = new Player("player1");
+const player2 = new Player("player2");
 
 addEventListeners(paddleLeft, paddleRight);
 
@@ -40,10 +44,32 @@ const move = () => {
   paddleLeft.move();
   paddleRight.move();
 
-  checkCollision(ball, border, paddleLeft, paddleRight);
+  const collision = checkCollision(ball, border, paddleLeft, paddleRight);
+  updateScore(collision);
 };
 
-//  Call the functions
+const updateScore = (collision) => {
+  const { left, right } = collision;
+  if (right !== null) {
+    player1.score++;
+    let element = document.querySelector("#player1-score");
+    element.textContent = player1.score;
+  }
+  if (left !== null) {
+    player2.score++;
+    let element = document.querySelector("#player2-score");
+    element.textContent = player2.score;
+  }
+};
+
+const showPlayers = () => {
+  document.querySelector("#player1-name").textContent = player1.name;
+  document.querySelector("#player2-name").textContent = player2.name;
+  document.querySelector("#player1-score").textContent = player1.score;
+  document.querySelector("#player2-score").textContent = player2.score;
+};
+
+showPlayers();
 const myInterval = setInterval(() => {
   if (!pause) {
     render();
