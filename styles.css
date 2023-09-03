@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.name,
+.score {
+  width: 500px;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  font-size: 1.5rem;
+  font-family: Courier;
+}
+
+.score {
+  color: lightcoral;
+}
