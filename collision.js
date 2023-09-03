@@ -1,21 +1,9 @@
 const checkCollision = (ball, border, paddleLeft, paddleRight) => {
-  let collision = touchborder(paddleLeft, border);
-  paddleLeft.rectifyPosition(collision);
-
-  collision = touchborder(paddleRight, border);
-  paddleRight.rectifyPosition(collision);
-
-  collision = touchborder(ball, border);
-  ball.rectifyPosition(collision);
-  ball.bounce(collision);
-
-  collision = touchPaddle(ball, paddleLeft);
-  ball.rectifyPosition(collision);
-  ball.bounce(collision);
-
-  collision = touchPaddle(ball, paddleRight);
-  ball.rectifyPosition(collision);
-  ball.bounce(collision);
+  paddleLeft.manageCollision(touchborder(paddleLeft, border));
+  paddleRight.manageCollision(touchborder(paddleRight, border));
+  ball.manageCollision(touchborder(ball, border));
+  ball.manageCollision(touchPaddle(ball, paddleLeft));
+  ball.manageCollision(touchPaddle(ball, paddleRight));
 };
 
 const touchborder = (obj, border) => {
@@ -23,19 +11,19 @@ const touchborder = (obj, border) => {
     left:
       obj.boundingBox.xMin <= border.boundingBox.xMin
         ? border.boundingBox.xMin
-        : undefined,
+        : null,
     right:
       obj.boundingBox.xMax >= border.boundingBox.xMax
         ? border.boundingBox.xMax
-        : undefined,
+        : null,
     top:
       obj.boundingBox.yMin <= border.boundingBox.yMin
         ? border.boundingBox.yMin
-        : undefined,
+        : null,
     bottom:
       obj.boundingBox.yMax >= border.boundingBox.yMax
         ? border.boundingBox.yMax
-        : undefined,
+        : null,
   };
 };
 
@@ -73,19 +61,19 @@ const touchPaddle = (ball, paddle) => {
     left:
       paddle.boundingBox.xMin <= ball.boundingBox.xMin && horizontal
         ? paddle.boundingBox.xMax
-        : undefined,
+        : null,
     right:
       paddle.boundingBox.xMax >= ball.boundingBox.xMax && horizontal
         ? paddle.boundingBox.xMin
-        : undefined,
+        : null,
     top:
       paddle.boundingBox.yMin <= ball.boundingBox.yMin && vertical
         ? paddle.boundingBox.yMax
-        : undefined,
+        : null,
     bottom:
       paddle.boundingBox.yMax >= ball.boundingBox.yMax && vertical
         ? paddle.boundingBox.yMin
-        : undefined,
+        : null,
   };
 };
 

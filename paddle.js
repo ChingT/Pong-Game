@@ -19,19 +19,24 @@ class Paddle extends MovingObejct {
     renderCircle(x, y, 3, "white");
   }
 
-  rectifyPosition(collision) {
+  manageCollision(collision) {
     const { left, right, top, bottom } = collision;
+    if (left !== null || right !== null || top !== null || bottom !== null) {
+      this._rectifyPosition(left, right, top, bottom);
+    }
+  }
 
-    if (left !== undefined) {
+  _rectifyPosition(left, right, top, bottom) {
+    if (left !== null) {
       this.centroid.x = left + this._shpae.width / 2;
     }
-    if (right !== undefined) {
+    if (right !== null) {
       this.centroid.x = right - this._shpae.width / 2;
     }
-    if (top !== undefined) {
+    if (top !== null) {
       this.centroid.y = top + this._shpae.height / 2;
     }
-    if (bottom !== undefined) {
+    if (bottom !== null) {
       this.centroid.y = bottom - this._shpae.height / 2;
     }
   }

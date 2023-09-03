@@ -16,35 +16,40 @@ class Ball extends MovingObejct {
     renderCircle(x, y, this._shpae.width / 2, this._color);
   }
 
-  bounce(collision) {
+  manageCollision(collision) {
     const { left, right, top, bottom } = collision;
-    this.velocity.x *= left !== undefined || right !== undefined ? -1 : 1;
-    this.velocity.y *= top !== undefined || bottom !== undefined ? -1 : 1;
+    if (left !== null || right !== null || top !== null || bottom !== null) {
+      this._rectifyPosition(left, right, top, bottom);
+      this._bounce(left, right, top, bottom);
+    }
   }
 
-  rectifyPosition(collision) {
-    const { left, right, top, bottom } = collision;
-
-    if (left !== undefined) {
+  _rectifyPosition(left, right, top, bottom) {
+    if (left !== null) {
       let dx = left + this._shpae.width / 2 - this.centroid.x;
       let dy = (dx / this.velocity.x) * this.velocity.y;
       this.centroid = { x: this.centroid.x + dx, y: this.centroid.y + dy };
     }
-    if (right !== undefined) {
+    if (right !== null) {
       let dx = right - this._shpae.width / 2 - this.centroid.x;
       let dy = (dx / this.velocity.x) * this.velocity.y;
       this.centroid = { x: this.centroid.x + dx, y: this.centroid.y + dy };
     }
-    if (top !== undefined) {
+    if (top !== null) {
       let dy = top + this._shpae.height / 2 - this.centroid.y;
       let dx = (dy / this.velocity.y) * this.velocity.x;
       this.centroid = { x: this.centroid.x + dx, y: this.centroid.y + dy };
     }
-    if (bottom !== undefined) {
+    if (bottom !== null) {
       let dy = bottom - this._shpae.height / 2 - this.centroid.y;
       let dx = (dy / this.velocity.y) * this.velocity.x;
       this.centroid = { x: this.centroid.x + dx, y: this.centroid.y + dy };
     }
+  }
+
+  _bounce(left, right, top, bottom) {
+    this.velocity.x *= left !== null || right !== null ? -1 : 1;
+    this.velocity.y *= top !== null || bottom !== null ? -1 : 1;
   }
 }
 
