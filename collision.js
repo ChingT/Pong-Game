@@ -1,63 +1,85 @@
-const checkCollision = (ball, boder, paddleLeft, paddleRight) => {
-  let collision = touchBoder(ball, boder);
+const checkCollision = (ball, border, paddleLeft, paddleRight) => {
+  let collision = touchborder(ball, border);
+  ball.correctPosition(collision);
   ball.bounce(collision);
 
   collision = touchPaddle(ball, paddleLeft);
+  ball.correctPosition(collision);
   ball.bounce(collision);
 
   collision = touchPaddle(ball, paddleRight);
+  ball.correctPosition(collision);
   ball.bounce(collision);
 };
 
-const touchBoder = (ball, boder) => {
-  const touched = (aMin, aMax, bMin, bMax) => aMin <= bMin || aMax >= bMax;
-
+const touchborder = (ball, border) => {
   return {
-    horizontal: touched(
-      ball.outline.xMin,
-      ball.outline.xMax,
-      boder.outline.xMin,
-      boder.outline.xMax
-    ),
-    vertical: touched(
-      ball.outline.yMin,
-      ball.outline.yMax,
-      boder.outline.yMin,
-      boder.outline.yMax
-    ),
+    left:
+      ball.outline.xMin <= border.outline.xMin
+        ? border.outline.xMin
+        : undefined,
+    right:
+      ball.outline.xMax >= border.outline.xMax
+        ? border.outline.xMax
+        : undefined,
+    top:
+      ball.outline.yMin <= border.outline.yMin
+        ? border.outline.yMin
+        : undefined,
+    bottom:
+      ball.outline.yMax >= border.outline.yMax
+        ? border.outline.yMax
+        : undefined,
   };
 };
 
 const touchPaddle = (ball, paddle) => {
-  const overlapped = (aMin, aMax, bMin, bMax) => aMin <= bMax && bMin <= aMax;
-  const xOverlapped = overlapped(
+  const isOverlap = (minA, maxA, minB, maxB) => minA <= maxB && minB <= maxA;
+  const xOverlapped = isOverlap(
     ball.outline.xMin,
     ball.outline.xMax,
     paddle.outline.xMin,
     paddle.outline.xMax
   );
-  const yOverlapped = overlapped(
+  const yOverlapped = isOverlap(
     ball.outline.yMin,
     ball.outline.yMax,
     paddle.outline.yMin,
     paddle.outline.yMax
   );
 
-  const inRange = (a, bMin, bMax) => bMin <= a && a <= bMax;
-  const xInRange = inRange(
+  const isInRange = (value, min, max) => value >= min && value <= max;
+  const xInRange = isInRange(
     ball.position.x,
     paddle.outline.xMin,
     paddle.outline.xMax
   );
-  const yInRange = inRange(
+  const yInRange = isInRange(
     ball.position.y,
     paddle.outline.yMin,
     paddle.outline.yMax
   );
 
+  const horizontal = xOverlapped && yInRange;
+  const vertical = yOverlapped && xInRange;
+
   return {
-    horizontal: xOverlapped && yInRange,
-    vertical: yOverlapped && xInRange,
+    left:
+      paddle.outline.xMin <= ball.outline.xMin && horizontal
+        ? paddle.outline.xMax
+        : undefined,
+    right:
+      paddle.outline.xMax >= ball.outline.xMax && horizontal
+        ? paddle.outline.xMin
+        : undefined,
+    top:
+      paddle.outline.yMin <= ball.outline.yMin && vertical
+        ? paddle.outline.yMax
+        : undefined,
+    bottom:
+      paddle.outline.yMax >= ball.outline.yMax && vertical
+        ? paddle.outline.yMin
+        : undefined,
   };
 };
 
