@@ -1,4 +1,4 @@
-import { BaseObejct } from "./base_obeject.js";
+import { Border } from "./base_obeject.js";
 import { Paddle } from "./paddle.js";
 import { Ball } from "./ball.js";
 import { canvasShape } from "./canvas.js";
@@ -7,7 +7,7 @@ import { checkCollision } from "./collision.js";
 
 let pause = false;
 
-const border = new BaseObejct(
+const border = new Border(
   { x: canvasShape.width / 2, y: canvasShape.height / 2 },
   canvasShape,
   "black"

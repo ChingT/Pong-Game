@@ -2,29 +2,37 @@ import { MovingObejct } from "./base_obeject.js";
 import { renderRectangle, renderCircle } from "./canvas.js";
 
 class Paddle extends MovingObejct {
-  constructor(initPosition) {
-    super(initPosition, { width: 20, height: 80 }, "green", { x: 0, y: 0 }, 20);
+  constructor(
+    initPosition,
+    shpae = { width: 20, height: 80 },
+    color = "green",
+    baseVelocity = 20
+  ) {
+    super(initPosition, shpae, color, baseVelocity, { x: 0, y: 0 });
   }
 
   render() {
-    renderRectangle(this.position, this._shpae, this._color);
-    renderCircle(this.position, 3, "white");
+    const { xMin, yMin } = this.boundingBox;
+    const { width, height } = this._shpae;
+    renderRectangle(xMin, yMin, width, height, this._color);
+    const { x, y } = this.centroid;
+    renderCircle(x, y, 3, "white");
   }
 
-  correctPosition(collision) {
+  rectifyPosition(collision) {
     const { left, right, top, bottom } = collision;
 
     if (left !== undefined) {
-      this.position.x = left + this._shpae.width / 2;
+      this.centroid.x = left + this._shpae.width / 2;
     }
     if (right !== undefined) {
-      this.position.x = right - this._shpae.width / 2;
+      this.centroid.x = right - this._shpae.width / 2;
     }
     if (top !== undefined) {
-      this.position.y = top + this._shpae.height / 2;
+      this.centroid.y = top + this._shpae.height / 2;
     }
     if (bottom !== undefined) {
-      this.position.y = bottom - this._shpae.height / 2;
+      this.centroid.y = bottom - this._shpae.height / 2;
     }
   }
 }

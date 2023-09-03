@@ -1,20 +1,20 @@
 const checkCollision = (ball, border, paddleLeft, paddleRight) => {
   let collision = touchborder(paddleLeft, border);
-  paddleLeft.correctPosition(collision);
+  paddleLeft.rectifyPosition(collision);
 
   collision = touchborder(paddleRight, border);
-  paddleRight.correctPosition(collision);
+  paddleRight.rectifyPosition(collision);
 
   collision = touchborder(ball, border);
-  ball.correctPosition(collision);
+  ball.rectifyPosition(collision);
   ball.bounce(collision);
 
   collision = touchPaddle(ball, paddleLeft);
-  ball.correctPosition(collision);
+  ball.rectifyPosition(collision);
   ball.bounce(collision);
 
   collision = touchPaddle(ball, paddleRight);
-  ball.correctPosition(collision);
+  ball.rectifyPosition(collision);
   ball.bounce(collision);
 };
 
@@ -56,12 +56,12 @@ const touchPaddle = (ball, paddle) => {
 
   const isInRange = (value, min, max) => value >= min && value <= max;
   const xInRange = isInRange(
-    ball.position.x,
+    ball.centroid.x,
     paddle.boundingBox.xMin,
     paddle.boundingBox.xMax
   );
   const yInRange = isInRange(
-    ball.position.y,
+    ball.centroid.y,
     paddle.boundingBox.yMin,
     paddle.boundingBox.yMax
   );
