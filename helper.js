@@ -35,7 +35,7 @@ const printDebugInfo = (ball, border, paddleLeft, paddleRight) => {
   const outOfWall = document.querySelector("#debug_info2");
   postions.innerHTML = `
   <p>border (${border.centroid.x}, ${border.centroid.y})<\p>
-  <p>Ball (${ball.centroid.x}, ${ball.centroid.y})<\p>
+  <p>Ball (${Math.round(ball.centroid.x)}, ${Math.round(ball.centroid.y)})<\p>
   <p>paddleLeft (${paddleLeft.centroid.x}, ${paddleLeft.centroid.y})
      paddleRight (${paddleRight.centroid.x}, ${paddleRight.centroid.y})<\p>
   `;

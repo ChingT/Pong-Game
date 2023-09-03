@@ -13,17 +13,23 @@ const updateScore = (collision, player1, player2) => {
   const { left, right } = collision;
   if (right !== null) {
     player1.score++;
-    let element = document.querySelector("#player1-score");
-    element.textContent = player1.score;
+    showScore(player1.score, player2.score);
     return true;
   }
   if (left !== null) {
     player2.score++;
-    let element = document.querySelector("#player2-score");
-    element.textContent = player2.score;
+    showScore(player1.score, player2.score);
     return true;
   }
   return false;
+};
+
+const showScore = (score1, score2) => {
+  let element = document.querySelector("#player1-score");
+  element.textContent = score1;
+
+  element = document.querySelector("#player2-score");
+  element.textContent = score2;
 };
 
 const findWinner = (player1, player2, goal) => {
@@ -34,4 +40,4 @@ const findWinner = (player1, player2, goal) => {
   }
 };
 
-export { Player, updateScore, findWinner };
+export { Player, updateScore, findWinner,showScore };

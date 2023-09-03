@@ -11,6 +11,13 @@ class Ball extends MovingObejct {
     super(initPosition, shpae, color, baseVelocity, { x: 1, y: 1 });
   }
 
+  reset() {
+    this.centroid = this._initPosition;
+    const rendomAngle = ((Math.round(Math.random() * 4) * 2 + 1) * Math.PI) / 4;
+    const initVelocity = { x: Math.sin(rendomAngle), y: Math.cos(rendomAngle) };
+    this.velocity = initVelocity;
+  }
+
   render() {
     const { x, y } = this.centroid;
     renderCircle(x, y, this._shpae.width / 2, this._color);
