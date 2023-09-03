@@ -4,7 +4,7 @@ import { Ball } from "./ball.js";
 import { canvasWidth, canvasHeight } from "./canvas.js";
 import { addEventListeners, showPlayers, printDebugInfo } from "./helper.js";
 import { checkCollision } from "./collision.js";
-import { Player, updateScore, findWinner } from "./player.js";
+import { Player, updateScore } from "./player.js";
 
 let pause = false;
 document.addEventListener("keypress", (event) => {
@@ -46,17 +46,15 @@ const routine = (border, paddleLeft, paddleRight, ball, player1, player2) => {
     paddleRight.render();
     ball.render();
 
-    const winner = findWinner(player1, player2, 5);
-
     ball.move();
     paddleLeft.move();
     paddleRight.move();
 
     const collision = checkCollision(ball, border, paddleLeft, paddleRight);
-    updateScore(collision, player1, player2);
+    const scoring = updateScore(collision, player1, player2);
     printDebugInfo(ball, border, paddleLeft, paddleRight);
 
-    return winner;
+    return scoring;
   }
 };
 

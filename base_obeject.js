@@ -5,7 +5,7 @@ class BaseObejct {
     this._color = color;
     this._shpae = shpae;
 
-    this.centroid = { x: initPosition.x, y: initPosition.y };
+    this.centroid = initPosition;
   }
 
   get boundingBox() {
@@ -32,11 +32,18 @@ class Border extends BaseObejct {
 }
 
 class MovingObejct extends BaseObejct {
-  constructor(initPosition, shpae, color, baseVelocity, velocity) {
+  constructor(initPosition, shpae, color, baseVelocity, initVelocity) {
     super(initPosition, shpae, color);
 
+    this._initPosition = initPosition;
     this._baseVelocity = baseVelocity;
-    this.velocity = velocity;
+    this._initVelocity = initVelocity;
+    this.velocity = { x: initVelocity.x, y: initVelocity.y };
+  }
+
+  reset() {
+    this.centroid = this._initPosition;
+    this.velocity = { x: this._initVelocity.x, y: this._initVelocity.y };
   }
 
   move() {

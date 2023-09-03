@@ -3,6 +3,10 @@ class Player {
     this.name = name;
     this.score = 0;
   }
+
+  reset() {
+    this.score = 0;
+  }
 }
 
 const updateScore = (collision, player1, player2) => {
@@ -11,12 +15,15 @@ const updateScore = (collision, player1, player2) => {
     player1.score++;
     let element = document.querySelector("#player1-score");
     element.textContent = player1.score;
+    return true;
   }
   if (left !== null) {
     player2.score++;
     let element = document.querySelector("#player2-score");
     element.textContent = player2.score;
+    return true;
   }
+  return false;
 };
 
 const findWinner = (player1, player2, goal) => {

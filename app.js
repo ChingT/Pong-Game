@@ -1,12 +1,12 @@
 import { getObjects, routine } from "./routine.js";
 import { renderWinnerMessage } from "./canvas.js";
+import { findWinner } from "./player.js";
+
+const [border, paddleLeft, paddleRight, ball, player1, player2] = getObjects();
 
 const startGame = () => {
-  const [border, paddleLeft, paddleRight, ball, player1, player2] =
-    getObjects();
-
   const myInterval = setInterval(() => {
-    const winner = routine(
+    const scoring = routine(
       border,
       paddleLeft,
       paddleRight,
@@ -15,9 +15,18 @@ const startGame = () => {
       player2
     );
 
-    if (winner) {
-      clearInterval(myInterval);
-      renderWinnerMessage(winner);
+    if (scoring) {
+      const winner = findWinner(player1, player2, 5);
+      if (winner) {
+        clearInterval(myInterval);
+        renderWinnerMessage(winner);
+        player1.reset();
+        player2.reset();
+      }
+
+      paddleLeft.reset();
+      paddleRight.reset();
+      ball.reset();
     }
   }, 30);
 };
