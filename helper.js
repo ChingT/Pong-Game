@@ -22,6 +22,13 @@ const addEventListeners = (paddleLeft, paddleRight) => {
   });
 };
 
+const showPlayers = (player1, player2) => {
+  document.querySelector("#player1-name").textContent = player1.name;
+  document.querySelector("#player2-name").textContent = player2.name;
+  document.querySelector("#player1-score").textContent = player1.score;
+  document.querySelector("#player2-score").textContent = player2.score;
+};
+
 // Debug
 const printDebugInfo = (ball, border, paddleLeft, paddleRight) => {
   const postions = document.querySelector("#debug_info");
@@ -42,4 +49,4 @@ const printDebugInfo = (ball, border, paddleLeft, paddleRight) => {
   }
 };
 
-export { addEventListeners, printDebugInfo };
+export { addEventListeners, showPlayers, printDebugInfo };

@@ -1,6 +1,7 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-const canvasShape = { width: canvas.width, height: canvas.height };
+const canvasWidth = canvas.width;
+const canvasHeight = canvas.height;
 
 const renderCircle = (x, y, radius, color) => {
   ctx.beginPath();
@@ -14,7 +15,7 @@ const renderRectangle = (x, y, w, h, color) => {
   ctx.fillRect(x, y, w, h);
 };
 
-const renderVerticalLine = (x, y1, y2, color = "gray") => {
+const renderVerticalLine = (x, y1, y2, color = "darkgrey") => {
   ctx.setLineDash([10, 10]);
   ctx.beginPath();
   ctx.moveTo(x, y1);
@@ -24,4 +25,21 @@ const renderVerticalLine = (x, y1, y2, color = "gray") => {
   ctx.stroke();
 };
 
-export { canvasShape, renderVerticalLine, renderCircle, renderRectangle };
+const renderWinnerMessage = (winner) => {
+  renderRectangle(0, 0, canvasWidth, canvasHeight, "rgba(125, 125, 125, 0.5)");
+
+  ctx.fillStyle = "orange";
+  ctx.font = "40px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(`${winner.name} wins!`, canvasWidth / 2, canvasHeight / 2 - 25);
+  ctx.fillText(`Press r to restart.`, canvasWidth / 2, canvasHeight / 2 + 25);
+};
+
+export {
+  canvasWidth,
+  canvasHeight,
+  renderVerticalLine,
+  renderCircle,
+  renderRectangle,
+  renderWinnerMessage,
+};
