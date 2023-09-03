@@ -1,18 +1,11 @@
 import { renderRectangle, renderMiddleLine } from "./canvas.js";
 
 class BaseObejct {
-  constructor(canvasShape, initPosition, shpae, color) {
+  constructor(initPosition, shpae, color) {
     this._color = color;
-    this._initPosition = initPosition;
     this._shpae = shpae;
 
-    this.position = { x: this._initPosition.x, y: this._initPosition.y }; // Center position of the object
-    this.limits = {
-      xMin: this._shpae.width / 2,
-      xMax: canvasShape.width - this._shpae.width / 2,
-      yMin: this._shpae.height / 2,
-      yMax: canvasShape.height - this._shpae.height / 2,
-    };
+    this.position = { x: initPosition.x, y: initPosition.y }; // Center position of the object
   }
 
   get boundingBox() {
@@ -31,8 +24,8 @@ class BaseObejct {
 }
 
 class MovingObejct extends BaseObejct {
-  constructor(canvasShape, initPosition, shpae, color, velocity, baseVelocity) {
-    super(canvasShape, initPosition, shpae, color);
+  constructor( initPosition, shpae, color, velocity, baseVelocity) {
+    super( initPosition, shpae, color);
 
     this.velocity = velocity;
     this._baseVelocity = baseVelocity;

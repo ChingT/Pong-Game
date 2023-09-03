@@ -2,15 +2,8 @@ import { MovingObejct } from "./base_obeject.js";
 import { renderCircle } from "./canvas.js";
 
 class Ball extends MovingObejct {
-  constructor(canvasShape, initPosition) {
-    super(
-      canvasShape,
-      initPosition,
-      { width: 10, height: 10 },
-      "red",
-      { x: 1, y: 1 },
-      6
-    );
+  constructor(initPosition) {
+    super(initPosition, { width: 10, height: 10 }, "red", { x: 1, y: 1 }, 6);
   }
 
   render() {

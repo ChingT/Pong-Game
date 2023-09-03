@@ -1,4 +1,4 @@
-import { MovingObejct } from "./base_obeject.js";
+import { BaseObejct } from "./base_obeject.js";
 import { Paddle } from "./paddle.js";
 import { Ball } from "./ball.js";
 import { canvasShape } from "./canvas.js";
@@ -7,27 +7,17 @@ import { checkCollision } from "./collision.js";
 
 let pause = false;
 
-const border = new MovingObejct(
-  canvasShape,
-  {
-    x: canvasShape.width / 2,
-    y: canvasShape.height / 2,
-  },
+const border = new BaseObejct(
+  { x: canvasShape.width / 2, y: canvasShape.height / 2 },
   canvasShape,
   "black"
 );
-const paddleLeft = new Paddle(canvasShape, {
-  x: 20,
-  y: canvasShape.height / 2,
-});
-const paddleRight = new Paddle(canvasShape, {
+const paddleLeft = new Paddle({ x: 20, y: canvasShape.height / 2 });
+const paddleRight = new Paddle({
   x: canvasShape.width - 20,
   y: canvasShape.height / 2,
 });
-const ball = new Ball(canvasShape, {
-  x: canvasShape.width / 2,
-  y: canvasShape.height / 2,
-});
+const ball = new Ball({ x: canvasShape.width / 2, y: canvasShape.height / 2 });
 
 addEventListeners(paddleLeft, paddleRight);
 
