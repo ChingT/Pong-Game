@@ -6,7 +6,7 @@ class BaseObejct {
     this._initPosition = initPosition;
     this._shpae = shpae;
 
-    this._position = { x: this._initPosition.x, y: this._initPosition.y }; // Center position of the object
+    this.position = { x: this._initPosition.x, y: this._initPosition.y }; // Center position of the object
     this.limits = {
       xMin: this._shpae.width / 2,
       xMax: canvasShape.width - this._shpae.width / 2,
@@ -22,18 +22,6 @@ class BaseObejct {
       yMin: this.position.y - this._shpae.height / 2,
       yMax: this.position.y + this._shpae.height / 2,
     };
-  }
-
-  get position() {
-    return this._position;
-  }
-  set position(newPostion) {
-    let { x, y } = newPostion;
-    x = x <= this.limits.xMin ? this.limits.xMin : x;
-    x = x >= this.limits.xMax ? this.limits.xMax : x;
-    y = y <= this.limits.yMin ? this.limits.yMin : y;
-    y = y >= this.limits.yMax ? this.limits.yMax : y;
-    this._position = { x: x, y: y };
   }
 
   render() {
@@ -52,8 +40,8 @@ class MovingObejct extends BaseObejct {
 
   move() {
     let { x, y } = this.position;
-    x = this.position.x + this._baseVelocity * this.velocity.x;
-    y = this.position.y + this._baseVelocity * this.velocity.y;
+    x += this._baseVelocity * this.velocity.x;
+    y += this._baseVelocity * this.velocity.y;
     this.position = { x, y };
   }
 }

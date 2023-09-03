@@ -1,5 +1,11 @@
 const checkCollision = (ball, border, paddleLeft, paddleRight) => {
-  let collision = touchborder(ball, border);
+  let collision = touchborder(paddleLeft, border);
+  paddleLeft.correctPosition(collision);
+
+  collision = touchborder(paddleRight, border);
+  paddleRight.correctPosition(collision);
+
+  collision = touchborder(ball, border);
   ball.correctPosition(collision);
   ball.bounce(collision);
 
@@ -12,24 +18,16 @@ const checkCollision = (ball, border, paddleLeft, paddleRight) => {
   ball.bounce(collision);
 };
 
-const touchborder = (ball, border) => {
+const touchborder = (obj, border) => {
   return {
     left:
-      ball.outline.xMin <= border.outline.xMin
-        ? border.outline.xMin
-        : undefined,
+      obj.outline.xMin <= border.outline.xMin ? border.outline.xMin : undefined,
     right:
-      ball.outline.xMax >= border.outline.xMax
-        ? border.outline.xMax
-        : undefined,
+      obj.outline.xMax >= border.outline.xMax ? border.outline.xMax : undefined,
     top:
-      ball.outline.yMin <= border.outline.yMin
-        ? border.outline.yMin
-        : undefined,
+      obj.outline.yMin <= border.outline.yMin ? border.outline.yMin : undefined,
     bottom:
-      ball.outline.yMax >= border.outline.yMax
-        ? border.outline.yMax
-        : undefined,
+      obj.outline.yMax >= border.outline.yMax ? border.outline.yMax : undefined,
   };
 };
 

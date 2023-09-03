@@ -46,9 +46,11 @@ const render = () => {
 };
 
 const move = () => {
+  ball.move();
   paddleLeft.move();
   paddleRight.move();
-  ball.move();
+
+  checkCollision(ball, border, paddleLeft, paddleRight);
 };
 
 //  Call the functions
@@ -56,7 +58,6 @@ const myInterval = setInterval(() => {
   if (!pause) {
     render();
     move();
-    checkCollision(ball, border, paddleLeft, paddleRight);
     printDebugInfo(ball, border, paddleLeft, paddleRight);
   }
 }, 50);
