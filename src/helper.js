@@ -40,9 +40,9 @@ const printDebugInfo = (ball, border, paddleLeft, paddleRight) => {
      paddleRight (${paddleRight.centroid.x}, ${paddleRight.centroid.y})<\p>
   `;
 
-  if (paddleLeft.boundingBox.yMin <= border.boundingBox.yMin) {
+  if (paddleLeft.boundingBox.yMin < border.boundingBox.yMin) {
     outOfWall.textContent = `Paddle is out of upper wall!`;
-  } else if (paddleLeft.boundingBox.yMax >= border.boundingBox.yMax) {
+  } else if (paddleLeft.boundingBox.yMax > border.boundingBox.yMax) {
     outOfWall.textContent = `Paddle is out of lower wall!`;
   } else {
     outOfWall.textContent = "";
