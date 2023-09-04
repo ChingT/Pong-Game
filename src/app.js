@@ -6,6 +6,8 @@ import {
 } from "./canvas.js";
 import { findWinner, showScore } from "./player.js";
 
+const goal = 5;
+
 let myInterval;
 const startGame = () => {
   resetAll();
@@ -24,7 +26,7 @@ const startGame = () => {
       );
 
       if (scoringPlayer) {
-        const winner = findWinner(scoringPlayer, 2);
+        const winner = findWinner(scoringPlayer, goal);
         if (winner) {
           clearInterval(myInterval);
           renderWinnerMessage(winner);
@@ -73,5 +75,5 @@ const resetAll = () => {
 };
 
 renderObjects(border, ball, paddleLeft, paddleRight);
-renderWelcomeMessage();
+renderWelcomeMessage(goal);
 document.addEventListener("keypress", handleStart);

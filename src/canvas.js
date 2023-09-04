@@ -39,13 +39,13 @@ const renderMessage = (lines) => {
   }
 };
 
-const renderWelcomeMessage = () => {
+const renderWelcomeMessage = (goal) => {
   const lines = [
     "To control paddle up & down:",
     "Player 1 - Q & A",
     "Player 2 - P & L",
     "",
-    "Whoever gets 5 points wins!",
+    `Whoever gets ${goal} points wins!`,
     "",
     "Press ENTER to start",
   ];
