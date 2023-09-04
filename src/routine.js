@@ -33,8 +33,6 @@ const renderObjects = (border, ball, paddleLeft, paddleRight) => {
 };
 
 const routine = (border, ball, paddleLeft, paddleRight, player1, player2) => {
-  renderObjects(border, ball, paddleLeft, paddleRight);
-
   ball.move();
   paddleLeft.move();
   paddleRight.move();
@@ -43,6 +41,7 @@ const routine = (border, ball, paddleLeft, paddleRight, player1, player2) => {
   const scoringPlayer = updateScore(collision, player1, player2);
   printDebugInfo(ball, border, paddleLeft, paddleRight);
 
+  renderObjects(border, ball, paddleLeft, paddleRight);
   return scoringPlayer;
 };
 
