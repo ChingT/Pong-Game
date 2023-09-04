@@ -1,22 +1,24 @@
 const addEventListeners = (paddleLeft, paddleRight) => {
   document.addEventListener("keydown", (event) => {
-    const { key } = event;
-    if (key === "ArrowDown") {
-      paddleLeft.velocity.y = 1;
-    } else if (key === "ArrowUp") {
+    let { key } = event;
+    key = key.toLowerCase();
+    if (key === "q") {
       paddleLeft.velocity.y = -1;
-    } else if (key === "2") {
-      paddleRight.velocity.y = 1;
-    } else if (key === "8") {
+    } else if (key === "a") {
+      paddleLeft.velocity.y = 1;
+    } else if (key === "p") {
       paddleRight.velocity.y = -1;
+    } else if (key === "l") {
+      paddleRight.velocity.y = 1;
     }
   });
 
   document.addEventListener("keyup", (event) => {
-    const { key } = event;
-    if (key === "ArrowDown" || key === "ArrowUp") {
+    let { key } = event;
+    key = key.toLowerCase();
+    if (key === "q" || key === "a") {
       paddleLeft.velocity.y = 0;
-    } else if (key === "2" || key === "8") {
+    } else if (key === "p" || key === "l") {
       paddleRight.velocity.y = 0;
     }
   });
