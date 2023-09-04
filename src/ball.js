@@ -8,7 +8,9 @@ class Ball extends MovingObejct {
     color = "red",
     baseVelocity = 5
   ) {
-    super(initPosition, shpae, color, baseVelocity, { x: 1, y: 1 });
+    super(initPosition, shpae, color, baseVelocity);
+
+    this.reset();
   }
 
   reset() {

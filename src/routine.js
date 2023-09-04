@@ -20,26 +20,19 @@ const getObjects = () => {
     { width: canvasWidth, height: canvasHeight },
     "black"
   );
+  const ball = new Ball({ x: canvasWidth / 2, y: canvasHeight / 2 });
   const paddleLeft = new Paddle({ x: 20, y: canvasHeight / 2 });
-  const paddleRight = new Paddle({
-    x: canvasWidth - 20,
-    y: canvasHeight / 2,
-  });
+  const paddleRight = new Paddle({ x: canvasWidth - 20, y: canvasHeight / 2 });
   addEventListeners(paddleLeft, paddleRight);
-
-  const ball = new Ball({
-    x: canvasWidth / 2,
-    y: canvasHeight / 2,
-  });
 
   const player1 = new Player("player1");
   const player2 = new Player("player2");
   showPlayers(player1, player2);
 
-  return [border, paddleLeft, paddleRight, ball, player1, player2];
+  return { border, ball, paddleLeft, paddleRight, player1, player2 };
 };
 
-const routine = (border, paddleLeft, paddleRight, ball, player1, player2) => {
+const routine = (border, ball, paddleLeft, paddleRight, player1, player2) => {
   if (!pause) {
     border.render();
     paddleLeft.render();

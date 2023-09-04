@@ -8,7 +8,14 @@ class Paddle extends MovingObejct {
     color = "green",
     baseVelocity = 20
   ) {
-    super(initPosition, shpae, color, baseVelocity, { x: 0, y: 0 });
+    super(initPosition, shpae, color, baseVelocity);
+
+    this.reset();
+  }
+
+  reset() {
+    this.centroid = this._initPosition;
+    this.velocity = { x: 0, y: 0 };
   }
 
   render() {
