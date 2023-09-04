@@ -25,14 +25,41 @@ const renderVerticalLine = (x, y1, y2, color = "darkgrey") => {
   ctx.stroke();
 };
 
-const renderWinnerMessage = (winner) => {
+const renderMessage = (lines) => {
   renderRectangle(0, 0, canvasWidth, canvasHeight, "rgba(125, 125, 125, 0.5)");
 
   ctx.fillStyle = "orange";
   ctx.font = "40px Arial";
   ctx.textAlign = "center";
-  ctx.fillText(`${winner.name} wins!`, canvasWidth / 2, canvasHeight / 2 - 25);
-  ctx.fillText(`Press r to restart.`, canvasWidth / 2, canvasHeight / 2 + 25);
+  const x = canvasWidth / 2;
+  const y = canvasHeight / 2;
+  const lineHeight = 50;
+  for (let i = 0; i < lines.length; i++) {
+    ctx.fillText(lines[i], x, y + (i - lines.length / 2) * lineHeight);
+  }
+};
+
+const renderWelcomeMessage = () => {
+  const lines = [
+    "To control paddle up & down:",
+    "Player 1 - Q & A",
+    "Player 2 - P & L",
+    "",
+    "Whoever gets 5 points wins!",
+    "",
+    "Press ENTER to start",
+  ];
+  renderMessage(lines);
+};
+
+const renderScoringMessage = (player) => {
+  const lines = [`${player.name} got a point!`, "", "Press SPACE to continue"];
+  renderMessage(lines);
+};
+
+const renderWinnerMessage = (winner) => {
+  const lines = [`${winner.name} won!`, "", `Press ENTER to restart.`];
+  renderMessage(lines);
 };
 
 export {
@@ -41,5 +68,7 @@ export {
   renderVerticalLine,
   renderCircle,
   renderRectangle,
+  renderWelcomeMessage,
+  renderScoringMessage,
   renderWinnerMessage,
 };

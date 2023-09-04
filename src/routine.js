@@ -7,14 +7,6 @@ import { printDebugInfo } from "./debug.js";
 import { checkCollision } from "./collision.js";
 import { Player, updateScore } from "./player.js";
 
-let pause = false;
-document.addEventListener("keypress", (event) => {
-  const { key } = event;
-  if (key === " ") {
-    pause = !pause;
-  }
-});
-
 const getObjects = () => {
   const border = new Border(
     { x: canvasWidth / 2, y: canvasHeight / 2 },
@@ -33,23 +25,25 @@ const getObjects = () => {
   return { border, ball, paddleLeft, paddleRight, player1, player2 };
 };
 
-const routine = (border, ball, paddleLeft, paddleRight, player1, player2) => {
-  if (!pause) {
-    border.render();
-    paddleLeft.render();
-    paddleRight.render();
-    ball.render();
-
-    ball.move();
-    paddleLeft.move();
-    paddleRight.move();
-
-    const collision = checkCollision(ball, border, paddleLeft, paddleRight);
-    const scoring = updateScore(collision, player1, player2);
-    printDebugInfo(ball, border, paddleLeft, paddleRight);
-
-    return scoring;
-  }
+const renderObjects = (border, ball, paddleLeft, paddleRight) => {
+  border.render();
+  paddleLeft.render();
+  paddleRight.render();
+  ball.render();
 };
 
-export { getObjects, routine };
+const routine = (border, ball, paddleLeft, paddleRight, player1, player2) => {
+  renderObjects(border, ball, paddleLeft, paddleRight);
+
+  ball.move();
+  paddleLeft.move();
+  paddleRight.move();
+
+  const collision = checkCollision(ball, border, paddleLeft, paddleRight);
+  const scoringPlayer = updateScore(collision, player1, player2);
+  printDebugInfo(ball, border, paddleLeft, paddleRight);
+
+  return scoringPlayer;
+};
+
+export { getObjects, renderObjects, routine };

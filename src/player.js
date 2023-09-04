@@ -14,14 +14,13 @@ const updateScore = (collision, player1, player2) => {
   if (right !== null) {
     player1.score++;
     showScore(player1.score, player2.score);
-    return true;
+    return player1;
   }
   if (left !== null) {
     player2.score++;
     showScore(player1.score, player2.score);
-    return true;
+    return player2;
   }
-  return false;
 };
 
 const showScore = (score1, score2) => {
@@ -32,12 +31,8 @@ const showScore = (score1, score2) => {
   element.textContent = score2;
 };
 
-const findWinner = (player1, player2, goal) => {
-  if (player1.score === goal) {
-    return player1;
-  } else if (player2.score === goal) {
-    return player2;
-  }
+const findWinner = (scoringPlayer, goal) => {
+  return scoringPlayer.score >= goal ? scoringPlayer : null;
 };
 
-export { Player, updateScore, findWinner,showScore };
+export { Player, updateScore, findWinner, showScore };
