@@ -2,7 +2,8 @@ import { Border } from "./base_obeject.js";
 import { Paddle } from "./paddle.js";
 import { Ball } from "./ball.js";
 import { canvasWidth, canvasHeight } from "./canvas.js";
-import { addEventListeners, showPlayers, printDebugInfo } from "./helper.js";
+import { addEventListeners, showPlayers } from "./helper.js";
+import { printDebugInfo } from "./debug.js";
 import { checkCollision } from "./collision.js";
 import { Player, updateScore } from "./player.js";
 

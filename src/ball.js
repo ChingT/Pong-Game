@@ -6,7 +6,7 @@ class Ball extends MovingObejct {
     initPosition,
     shpae = { width: 10, height: 10 },
     color = "red",
-    baseVelocity = 5
+    baseVelocity = 10
   ) {
     super(initPosition, shpae, color, baseVelocity);
 
